@@ -1,0 +1,70 @@
+<script>
+
+        hideElementEmail();
+
+
+        function hideElementUsername(){
+            $("#idDivUsername").hide();
+        }
+
+        function hideElementEmail(){
+            $("#idDivEmail").hide();
+        }
+
+        function showElementUsername(){
+            $("#idDivUsername").show();
+        }
+
+        function showElementEmail(){
+            $("#idDivEmail").show();
+        }
+
+        $("#idPilihTipeDaftar").change(function(){
+            var selectDaftar = $("#idPilihTipeDaftar").val();
+            if (selectDaftar === "OP1") {
+                //showElementEmail();
+                //hideElementUsername();
+                console.log("untuk sementara opsi tidak tersedia");
+            }
+            else{
+                hideElementEmail();
+                showElementUsername();
+            }
+        })
+
+
+</script>
+
+<form method="post" id="idFormRegister" autocomplete="off">
+    <label for="idTipeDaftar" class="sr-only">Tipe Daftar</label>
+    <!-- 'autofocus' will highlight the input column initially -->
+    <select class="form-select" name="" id="idPilihTipeDaftar">
+        <option value="" disabled selected>-- Tipe Daftar --</option>
+        <option value="OP1">By Email</option>
+        <option value="OP2">By Username</option>
+    </select>
+    
+    <div id="idDivUsername">
+        <label for="inputUsername" class="sr-only">Username</label>
+        <!-- 'autofocus' will highlight the input column initially -->
+        <input type="text" name="nameRegisterUsername" id="inputUsername" class="form-control mb-2" placeholder="Username" required autofocus>
+    </div>
+    
+    <div id="idDivEmail">
+        <label for="inputEmail" class="sr-only">Email</label>
+        <!-- 'autofocus' will highlight the input column initially -->
+        <input type="email" id="inputEmail" class="form-control mb-2" placeholder="Email Address" autofocus>
+        <!-- 'sr-only' will hide the text : 'Password'. So, 'Password' will be invisible -->
+    </div>
+    
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" name="nameRegisterPassword" id="inputPassword" class="form-control mb-2" placeholder="Password" required>
+    
+    <div class="mb-3">
+        <a href="#" id="idKembali">Kembali</a>
+    </div>
+    <!-- 'btn-block' will make the button wider -->
+    <button class="btn btn-lg btn-block" type="submit">
+        Simpan
+    </button>
+</form>
