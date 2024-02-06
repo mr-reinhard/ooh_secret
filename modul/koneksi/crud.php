@@ -103,7 +103,7 @@ switch ($_GET['aksi']) {
 
     case 'fetchSemuaPosting':
         # code...
-        $query = "SELECT * FROM vw_posting";
+        $query = "SELECT * FROM vw_posting ORDER BY tanggal_posting DESC";
         $run = mysqli_query($koneksi, $query);
 
         if (mysqli_num_rows($run) > 0) {
@@ -126,7 +126,7 @@ switch ($_GET['aksi']) {
         session_start();
 
         $idUser = $_SESSION['sessionIdUserLogin'];
-        $qury = "SELECT * FROM vw_posting WHERE id_login LIKE '%".$idUser."%'";
+        $qury = "SELECT * FROM vw_posting WHERE id_login LIKE '%".$idUser."%' ORDER BY tanggal_posting DESC";
         $run = mysqli_query($koneksi, $qury);
 
         if (mysqli_num_rows($run) > 0) {

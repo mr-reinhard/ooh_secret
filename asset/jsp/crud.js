@@ -311,7 +311,7 @@ function tampilkanPostingByUser(data){
     cardPostingByUser.empty();
 
     $.each(data, function(index, item){
-        var tanggalPosting = moment(item.tanggal_posting).format("MMMM, DD YYYY");
+        var tanggalPosting = moment(item.tanggal_posting).format("MMMM, DD YYYY HH:mm:ss");
         var appendCardPostingByUser = `<div class="col-md-6 mx-auto mt-5">
         <div class="card">
             <div class="card-body">
@@ -337,7 +337,7 @@ function tampilkanSemuaPosting(data){
     cardPosting.empty();
 
     $.each(data, function(index, item){
-        var tanggalPosting = moment(item.tanggal_posting).format("MMMM, DD YYYY");
+        var tanggalPosting = moment(item.tanggal_posting).format("MMMM, DD YYYY HH:mm:ss");
         var AppendCardPosting = `<div class="col-md-6 mx-auto mt-5">
         <div class="card">
             <div class="card-body">

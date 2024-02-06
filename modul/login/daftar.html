@@ -24,7 +24,7 @@
             if (selectDaftar === "OP1") {
                 //showElementEmail();
                 //hideElementUsername();
-                console.log("untuk sementara opsi tidak tersedia");
+                opsiEmail();
             }
             else{
                 hideElementEmail();
@@ -36,29 +36,35 @@
 </script>
 
 <form method="post" id="idFormRegister" autocomplete="off">
-    <label for="idTipeDaftar" class="sr-only">Tipe Daftar</label>
-    <!-- 'autofocus' will highlight the input column initially -->
-    <select class="form-select" name="" id="idPilihTipeDaftar">
-        <option value="" disabled selected>-- Tipe Daftar --</option>
-        <option value="OP1">By Email</option>
-        <option value="OP2">By Username</option>
-    </select>
-    
+
+    <div class="input-group mt-5">
+        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-list-ul"></i></span>
+        <select name="" id="idPilihTipeDaftar" class="form-select">
+            <option value="" disabled selected>-- Tipe Daftar --</option>
+            <option value="OP1">By Email</option>
+            <option value="OP2">By Username</option>
+        </select>
+    </div>
+
     <div id="idDivUsername">
-        <label for="inputUsername" class="sr-only">Username</label>
-        <!-- 'autofocus' will highlight the input column initially -->
-        <input type="text" name="nameRegisterUsername" id="inputUsername" class="form-control mb-2" placeholder="Username" required autofocus>
+        <div class="input-group mt-3">
+            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+            <input type="text" name="nameRegisterUsername" class="form-control" id="inputUsername" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
     </div>
-    
+
     <div id="idDivEmail">
-        <label for="inputEmail" class="sr-only">Email</label>
-        <!-- 'autofocus' will highlight the input column initially -->
-        <input type="email" id="inputEmail" class="form-control mb-2" placeholder="Email Address" autofocus>
-        <!-- 'sr-only' will hide the text : 'Password'. So, 'Password' will be invisible -->
+        <div class="input-group mt-3">
+            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-lock"></i></span>
+            <input type="text" name="nameUserPassword" class="form-control" id="idInputPassword" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
     </div>
-    
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" name="nameRegisterPassword" id="inputPassword" class="form-control mb-2" placeholder="Password" required>
+
+
+    <div class="input-group mt-3">
+        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-lock"></i></span>
+        <input type="text" name="nameRegisterPassword" class="form-control" id="inputPassword" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1">
+    </div>
     
     <div class="mb-3">
         <a href="#" id="idKembali">Kembali</a>

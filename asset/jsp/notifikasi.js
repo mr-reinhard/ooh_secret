@@ -86,3 +86,11 @@ function kamuBelumLogin() {
         icon: "info"
       });
 }
+
+function opsiEmail() {
+    Swal.fire({
+        title: "Hmmmm...",
+        text: "Untuk sementara opsi tidak tersedia.",
+        icon: "info"
+      });
+}
