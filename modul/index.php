@@ -18,6 +18,8 @@
     <script src="../asset/jsp/callform.js"></script>
     <link rel="stylesheet" href="../asset/css/fontawesome.css">
     <script src="../asset/jsp/notifikasi.js"></script>
+    <script src="../asset/jsp/crud.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <title>Ooh! Secret</title>
     <style>
         footer {
@@ -36,15 +38,20 @@
         .navbar{
             border-radius: 50px;
         }
-        #idMainComment{
+        #idMainPosting{
             overflow-y: auto;
-            max-height: 500px;
+            max-height: 600px;
         }
     </style>
 
     <script>
         $(document).ready(function(){
-            load_timeLine();
+            load_formChat();
+            //load_allChatList();
+            //load_listPostingByUser();
+            //cekUser();
+            //fetchSemuaPosting();
+            //load_timeLine();
             //load_newPosting();
             //load_userAccount();
             //load_hapusAccount();
@@ -57,12 +64,17 @@
                 load_timeLine();
             })
 
-            $("#idMainContentUser").on("click", "#idBtnBackFormLihatAkun", function(){
-                load_timeLine();
-            })
-
             $("#idMainContentUser").on("click", "#idBtnSetupAkun", function(){
                 load_hapusAccount();
+            })
+
+            $("#idMainContentUser").on("click", "#idBtnHapusPosting", function(){
+                askHapusDataPosting();
+            })
+
+            // buka form edit
+            $("#idMainContentUser").on("click", "#idBtnEditPostingan", function(){
+                requestBukaFormEditPostingan();
             })
 
             $("#idMenuUserAccount").click(function(){
@@ -73,19 +85,23 @@
                 Informasi();
             })
 
-            // simpan data comment
-            $("#idMainContentUser").on("submit", "#idFormKomentar", function(e){
+            $("#idMenuUserPosting").click(function(){
+                load_timeLine();
+            })
+
+            $("#idMenuPostingByUser").click(function(){
+                load_listPostingByUser();
+            })
+
+            $("#idMainContentUser").on("submit", "#idFormBuatUsername", function(e){
                 e.preventDefault();
-                $.ajax({
-                    url: "koneksi/crud.php?aksi=simpanComment",
-                    type: "POST",
-                    data: $(this).serialize(),
-                    success: function (data)
-                    {
-                        console.log("data berhasil disimpan");
-                        //load_timeLine();
-                    }
-                })
+                askSimpanDataUserName();
+            })
+
+            // simpan data comment
+            $("#idMainContentUser").on("submit", "#idFormPosting", function(e){
+                e.preventDefault();
+                askSimpanDataPosting();
             })
 
         })
@@ -93,10 +109,7 @@
 </head>
 <body>
 
-    <div id="idMainContentUser">
-        <p></p>
-
-    </div>
+    <div id="idMainContentUser"></div>
 
     <footer>
         <nav class="navbar navbar-light bg-light">
@@ -104,9 +117,10 @@
 
                     <a class="navbar-brand" href="#" id="idMenuUserAccount"><i class="fa-solid fa-user fa-lg"></i></a>
                     <a class="navbar-brand" href="#"><i class="fa-solid fa-comments fa-lg"></i></a>
-                    <a class="navbar-brand" href="#"><i class="fa-solid fa-comment-dots fa-lg"></i></a>
+                    <a class="navbar-brand" href="#" id="idMenuUserPosting"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                    <a class="navbar-brand" href="#" id="idMenuPostingByUser"><i class="fa-solid fa-list fa-lg"></i></a>
                     <a class="navbar-brand" href="#" id="idMenuAbout"><i class="fa-solid fa-circle-info fa-lg"></i></a>
-                    <a class="navbar-brand" href="koneksi/logout.php"><i class="fa-solid fa-right-from-bracket fa-lg"></i></a>
+                    
 
             </div>
         </nav>

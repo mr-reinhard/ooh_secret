@@ -63,3 +63,47 @@ function load_hapusAccount(){
     }
   })
 }
+
+function load_buatUsername(){
+  $.ajax({
+    url:'akun/form_username.html',
+    type:'GET',
+    success:function(data){
+      $('#idMainContentUser').html(data);
+    }
+  })
+}
+
+// module posting
+function load_listPostingByUser(){
+  $.ajax({
+    url:'posting/list_posting.html',
+    type:'GET',
+    success:function(data){
+      $('#idMainContentUser').html(data);
+    }
+  })
+}
+
+// end of module posting
+
+// module chat
+function load_allChatList(){
+  $.ajax({
+    url:'chat/semua_chat.html',
+    type:'GET',
+    success:function(data){
+      $('#idMainContentUser').html(data);
+    }
+  })
+}
+
+function load_formChat(){
+  $.ajax({
+    url:'chat/mode_chat.html',
+    type:'GET',
+    success:function(data){
+      $('#idMainContentUser').html(data);
+    }
+  })
+}

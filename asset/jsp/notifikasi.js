@@ -1,12 +1,11 @@
 
 function Informasi(){
-  var url = "https://sweetalert2.github.io/";
   Swal.fire({
     title: "Capt Bon",
-    text: "Visil my REPO at https://reinhard.github.io/",
+    text: "Contribute are allowed in Github",
     imageUrl: "../asset/image/about.jpg",
-    imageWidth: 400,
-    imageHeight: 300,
+    imageWidth: 350,
+    imageHeight: 400,
     imageAlt: "Custom image"
   });
 }
@@ -25,8 +24,8 @@ function pendaftaranBerhasil() {
         }
       });
       Toast.fire({
-        icon: "error",
-        title: "Silahkan Login"
+        icon: "success",
+        title: "Akun berhasil dibuat"
       });
 
 }
@@ -47,6 +46,26 @@ function logoutBerhasil() {
       Toast.fire({
         icon: "info",
         title: "Logout Berhasil"
+      });
+
+}
+
+function usernameBerhasilDibuat() {
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "success",
+        title: "Username berhasil dibuat"
       });
 
 }

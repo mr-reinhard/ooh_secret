@@ -13,16 +13,42 @@ function randomIdRegister(){
     return $output_id;
 }
 
+function randomIdUser(){
+    $unique_id = '0123456789ABCDEFGHIJKLMNOPQRSTUVWQYZ';
+    $output_id = substr(str_shuffle($unique_id),0,16);
+    return $output_id;
+}
 
+
+/*
+SESSION LIST MANIPULATE
+
+- sessionNamaLogin <- nempel dari pas login
+- sessionNamaUserPengguna <- dari pas buat username baru pertama kali, klo logout ke destroy
+- sessionIdUserPengguna <- nempel dari pas login lagi
+*/
 switch ($_GET['aksi']) {
 
-    case 'simpanComment':
+    case 'simpanPosting':
         # code...
 
+        session_start();
+
+        $idUserName = $_SESSION['sessionIdUserLogin'];
         $idPosting = randomIdPosting();
         $postingComment = $_POST['namePosting'];
+        $tanggalReal = date('Y-m-d H:i:s');
 
-        $sql = "INSERT INTO posting(id_posting,judul_posting)VALUES('$idPosting','$postingComment')";
+        $swapIdUser = "SELECT * FROM tbl_user WHERE id_login LIKE '%".$idUserName."%'";
+        $run = mysqli_query($koneksi, $swapIdUser);
+
+        while ($hasil = mysqli_fetch_array($run)) {
+            # code...
+            $data = $hasil['id_user'];
+            $_SESSION['sessionIdUserPengguna'] = $data;
+        }
+
+        $sql = "INSERT INTO posting(id_user,id_posting,judul_posting,tanggal_posting)VALUES('$data','$idPosting','$postingComment','$tanggalReal')";
         $run = mysqli_query($koneksi, $sql);
 
         break;
@@ -33,23 +59,57 @@ switch ($_GET['aksi']) {
         $userName = $_POST['nameRegisterUsername'];
         $passWord = $_POST['nameRegisterPassword'];
 
-        $sql = "INSERT INTO tbl_login(id_login,nama_user,password_user)VALUES('$idRegister','$userName','$passWord')";
-        $run = mysqli_query($koneksi, $sql);
+        $sql_1 = "INSERT INTO tbl_login(id_login,nama_login,password_login)VALUES('$idRegister','$userName','$passWord')";
+        $sql_2 = "INSERT INTO tbl_user(id_login,id_user,nama_user)VALUES('$idRegister','','')";
+
+        $run_1 = mysqli_query($koneksi, $sql_1);
+        $run_2 = mysqli_query($koneksi, $sql_2);
         break;
 
-    case 'loginSession':
+    case 'cekUserTersedia':
         # code...
-        $uName = $_POST['dataName'];
-        $uPass = $_POST['dataPazz'];
+        session_start();
+        $idLogin = $_SESSION['sessionIdUserLogin'];
 
-        $query = "SELECT * FROM tbl_login WHERE nama_user LIKE '%".$uName."%' AND password_user LIKE '%".$uPass."%'";
-        $runQuery = mysqli_query($koneksi, $query);
+        $sql = "SELECT * FROM tbl_user WHERE id_login LIKE '%".$idLogin."%'";
+        $run = mysqli_query($koneksi, $sql);
 
-        if (mysqli_num_rows($runQuery) > 0) {
+        if (mysqli_num_rows($run) > 0) {
+            # code...
+            while ($hasil = mysqli_fetch_assoc($run)) {
+                # code...
+                $data = $hasil['id_user'];
+            }
+            echo json_encode($data);
+        }
+        else{
+            echo json_encode($data);
+        }
+
+        break;
+
+    case 'simpanUsernameBaru':
+        # code...
+        session_start();
+        $idLogin = $_SESSION['sessionIdUserLogin'];
+        $idUser = randomIdUser();
+        $userName = $_POST['nameUserNameBaru'];
+        $_SESSION['sessionNamaUserPengguna'] = $idUser;
+
+        $insertTbluser = "UPDATE tbl_user SET id_user = '".$idUser."', nama_user = '".$userName."' WHERE id_login LIKE '%".$idLogin."%'";
+        $runInsert = mysqli_query($koneksi, $insertTbluser);
+
+        break;
+
+    case 'fetchSemuaPosting':
+        # code...
+        $query = "SELECT * FROM vw_posting";
+        $run = mysqli_query($koneksi, $query);
+
+        if (mysqli_num_rows($run) > 0) {
             # code...
             $tampungData = array();
-
-            while ($hasil = mysqli_fetch_assoc($runQuery)) {
+            while ($hasil = mysqli_fetch_assoc($run)) {
                 # code...
                 $tampungData[] = $hasil;
             }
@@ -58,76 +118,76 @@ switch ($_GET['aksi']) {
         else{
             echo json_encode(array());
         }
+        mysqli_close($koneksi);
         break;
 
-    case 'loginPertama':
+    case 'fetchPostingByUser':
         # code...
         session_start();
 
-        $uName = $_POST['nama'];
-        $uPass = $_POST['pass'];
+        $idUser = $_SESSION['sessionIdUserLogin'];
+        $qury = "SELECT * FROM vw_posting WHERE id_login LIKE '%".$idUser."%'";
+        $run = mysqli_query($koneksi, $qury);
 
-        $query = "SELECT * FROM tbl_login WHERE nama_user LIKE '%".$uName."%' AND password_user LIKE '%".$uPass."%'";
-        $cek  = mysqli_query($koneksi, $query);
-
-        if (mysqli_num_rows($cek) > 0) {
-            # code...
-            $hasilData = array();
-            while ($hasil = mysqli_fetch_assoc($cek)) {
-                # code...
-                $_SESSION['nama_user'] = $uName;
-                $hasilData[] = $hasil;
-                echo json_encode($hasilData);
-            }
-        }
-        else{
-            echo json_encode(array());
-        }
-        break;
-
-    case 'loginKedua':
-        # code...
-        $uName = $_POST['nama'];
-        $uPass = $_POST['pass'];
-
-        $run = "SELECT * FROM tbl_login WHERE nama_user LIKE '%".$uName."%' AND password_user LIKE '%".$uPass."%'";
-        $cek = mysqli_query($koneksi, $run);
-
-        if (mysqli_num_rows($cek) > 0) {
+        if (mysqli_num_rows($run) > 0) {
             # code...
             $tampungData = array();
-            while ($data = mysqli_fetch_assoc($cek)) {
+            while ($hasil = mysqli_fetch_assoc($run)) {
                 # code...
-                $tampungData[] = $data;
+                $tampungData[] = $hasil;
             }
             echo json_encode($tampungData);
         }
         else{
             echo json_encode(array());
         }
+        mysqli_close($koneksi);
         break;
 
-    case 'cekLogin':
+    case 'hapusPostingByUser':
         # code...
-        session_start();
+        $idPosting = $_POST['idPost'];
+        $query = "DELETE FROM posting WHERE id_posting LIKE '%".$idPosting."%'";
+        $run = mysqli_query($koneksi, $query);
+        mysqli_close($koneksi);
+        break;
 
-        $cekLogin = $_SESSION['nama_user'];
-        if ($cekLogin == "") {
+    case 'fetchPostingByIdPosting':
+        # code...
+        $idPosting = $_POST['id_posting'];
+
+        $sql = "SELECT * FROM posting WHERE id_posting = '".$idPosting."'";
+        
+        $run = mysqli_query($koneksi, $sql);
+
+        if (mysqli_num_rows($run) > 0) {
             # code...
+            $tampungData = array();
+            
+            while ($hasil = mysqli_fetch_assoc($run)) {
+                # code...
+            $tampungData[] = $hasil;
+            }
+            echo json_encode($tampungData);
+        }
+        else{
             echo json_encode(array());
         }
+        
+        mysqli_close($koneksi);
         break;
 
-    case 'logout':
+    case 'updatePostingan':
         # code...
-        session_unset();
-        session_destroy();
-
-        header("Location:../index.html");
+        $postingBaru = $_POST[''];
+        $idPosting = $_POST[''];
+        $sql = "UPDATE posting SET judul_posting = '$idPOsting' WHERE id_posting LIKE '%".$idPosting."%'";
+        $runSql = mysqli_query($koneksi, $sql);
         break;
-    
-    default:
         # code...
+
+        default:
+
         break;
 }
 ?>
