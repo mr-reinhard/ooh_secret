@@ -46,10 +46,10 @@
 
     <script>
         $(document).ready(function(){
-            load_formChat();
+            //load_formChat();
             //load_allChatList();
             //load_listPostingByUser();
-            //cekUser();
+            cekUser();
             //fetchSemuaPosting();
             //load_timeLine();
             //load_newPosting();
