@@ -66,6 +66,43 @@ function askHapusDataPosting(){
     })
 }
 
+function askUpdateDataPosting(){
+    Swal.fire({
+        title: 'Update Posting ?',
+        text: "Mending cek dulu!",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Simpan'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            updateDataPosting();
+        }
+    })
+}
+
+function updateDataPosting(){
+    var idPost = $("#id_identityPosting").val();
+    var textPost = $("#idTextEditComment").val();
+    $.ajax({
+        url:"koneksi/crud.php?aksi=updatePostingan",
+        type:"POST",
+        data:{
+            identityPosting:idPost,
+            idTextEditComment:textPost,
+        },
+        success:function(data)
+        {
+            load_listPostingByUser();
+        },
+        error:function(xhr, status, error)
+        {
+            console.log(xhr. responseText);
+        }
+    })
+}
+
 function hapusDataPosting(){
     var idPosting = $("#idBtnHapusPosting").val();
     $.ajax({
@@ -221,18 +258,17 @@ function requestPostingByUser(){
 
 // =======================================
 // buka form edit posting
-function requestBukaFormEditPostingan(){
-    var tombolEditPosting = $("#idBtnEditPostingan").val();
-    console.log(tombolEditPosting)
+function requestBukaFormEditPostingan(nilaiTombol){
+
     $.ajax({
         url:"koneksi/crud.php?aksi=fetchPostingByIdPosting",
         type:"POST",
-        data:{id_posting:tombolEditPosting},
+        data:{id_posting:nilaiTombol},
         dataType:"JSON",
         success:function(data)
         {
-            console.log(data)
-            //tampilkanFormEditPosting(data);
+            //console.log(nilaiTombol)
+            tampilkanFormEditPosting(data);
         },
         error:function(xhr, status, error)
         {
@@ -247,13 +283,14 @@ function tampilkanFormEditPosting(data){
     cardPostingan.empty();
 
     $.each(data, function(index, item){
-        var appendFormEdit = `<form method="post" id="idFormEditPosting" autocomplete="off">
+        var appendFormEdit = `<form method="post" id="idFormUpdatePosting" autocomplete="off">
         <div class="card">
             <h5 class="card-header">Edit Posting</h5>
             <div class="card-body">
                 <div class="mb-3">
                     <label for="idTextComment">Edit postingan Lo !</label>
-                    <textarea class="form-control" name="namePosting" id="idTextEditComment" cols="3" rows="5" maxlength="250">${item.judul_posting}</textarea>
+                    <input type="text" id="id_identityPosting" value="${item.id_posting}" readonly hidden>
+                    <textarea class="form-control" id="idTextEditComment" cols="3" rows="5" maxlength="250">${item.judul_posting}</textarea>
                     <div id="idTextComment" class="form-text">Edit postingan mu dengan tidak sopan dan kurang ajar.</div>
                 </div>
                 <button type="submit" class="btn"><i class="fa-solid fa-rocket"></i> Cuuuzzz</button>
@@ -282,13 +319,12 @@ function tampilkanPostingByUser(data){
                 <h5 class="card-title">${item.nama_user}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">${tanggalPosting}</h6>
                 <p class="card-text">${item.judul_posting}</p>
-                <div id="divIdComment">
+
                     <div class="d-flex justify-content-between align-items-center">   
                         <button type="button" class="btn" id="idBtnLihatCommentPosting"><i class="fa-solid fa-comment-dots"></i> 10 Comment</button>
                         <button type="button" class="btn" id="idBtnEditPostingan" value="${item.id_posting}"><i class="fa-solid fa-file-pen"></i> Edit</button>
                         <button type="button" class="btn" id="idBtnHapusPosting" value="${item.id_posting}"><i class="fa-solid fa-trash-can"></i> Hapus</button>
                     </div>
-                </div>
             </div>
         </div>
     </div>`;

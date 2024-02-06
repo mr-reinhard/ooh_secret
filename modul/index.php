@@ -74,7 +74,9 @@
 
             // buka form edit
             $("#idMainContentUser").on("click", "#idBtnEditPostingan", function(){
-                requestBukaFormEditPostingan();
+                //requestBukaFormEditPostingan();
+                var tombolEditPosting = $(this).val();
+                requestBukaFormEditPostingan(tombolEditPosting);
             })
 
             $("#idMenuUserAccount").click(function(){
@@ -102,6 +104,11 @@
             $("#idMainContentUser").on("submit", "#idFormPosting", function(e){
                 e.preventDefault();
                 askSimpanDataPosting();
+            })
+
+            $("#idMainContentUser").on("submit", "#idFormUpdatePosting", function(e){
+                e.preventDefault();
+                askUpdateDataPosting();
             })
 
         })

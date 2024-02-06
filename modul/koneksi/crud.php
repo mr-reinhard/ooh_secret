@@ -156,7 +156,7 @@ switch ($_GET['aksi']) {
         # code...
         $idPosting = $_POST['id_posting'];
 
-        $sql = "SELECT * FROM posting WHERE id_posting = '".$idPosting."'";
+        $sql = "SELECT * FROM posting WHERE id_posting LIKE '%".$idPosting."%'";
         
         $run = mysqli_query($koneksi, $sql);
 
@@ -179,9 +179,9 @@ switch ($_GET['aksi']) {
 
     case 'updatePostingan':
         # code...
-        $postingBaru = $_POST[''];
-        $idPosting = $_POST[''];
-        $sql = "UPDATE posting SET judul_posting = '$idPOsting' WHERE id_posting LIKE '%".$idPosting."%'";
+        $idPosting = $_POST['identityPosting'];
+        $postingBaru = $_POST['idTextEditComment'];
+        $sql = "UPDATE posting SET judul_posting = '$postingBaru' WHERE id_posting LIKE '%".$idPosting."%'";
         $runSql = mysqli_query($koneksi, $sql);
         break;
         # code...
