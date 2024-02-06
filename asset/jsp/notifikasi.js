@@ -1,12 +1,13 @@
 
 function Informasi(){
+  var linkGithub = $("<a href='https://github.com/mr-reinhard/ooh_secret.git' class='btn'><i class='fa-brands fa-github'></i> Mr Reinhard</a>");
   Swal.fire({
     title: "Capt Bon",
-    text: "Contribute are allowed in Github",
-    imageUrl: "../asset/image/about.jpg",
-    imageWidth: 350,
+    html: "Contribute are allowed in Github "+linkGithub.prop('outerHTML'),
+    imageUrl: "../asset/image/saya.jpg",
+    imageWidth: 300,
     imageHeight: 400,
-    imageAlt: "Custom image"
+    imageAlt: "Custom image",
   });
 }
 
